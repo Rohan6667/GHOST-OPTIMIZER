@@ -1,4 +1,4 @@
-use sysinfo::{ProcessExt, System, SystemExt};
+hereuse sysinfo::{System, Process};
 use std::time::Duration;
 use tokio::time::sleep;
 use reqwest::Client;
@@ -11,7 +11,7 @@ const HF_SPACE_URL: &str = env!("HF_SPACE_URL");
 #[tokio::main]
 async fn main() {
     println!("==================================================");
-    println!("===        GHOST OPTIMIZER CLI (v0.1.0)        ===");
+    println!("===        GHOST OPTIMIZER CLI (v0.2.1)        ===");
     println!("==================================================");
     println!("Initializing secure infrastructure optimizer...\n");
 
@@ -31,7 +31,8 @@ async fn main() {
             
             if cpu_usage > 80.0 {
                 heavy_processes = true;
-                let proc_name = process.name().to_string_lossy().to_string(); 
+                // FIXED: Naye sysinfo mein process.name() direct slice/string deta hai, to_string() kaafi hai
+                let proc_name = process.name().to_string(); 
                 
                 println!(
                     "[⚠️ ALERT] Process ID: {} | Name: {} | CPU Usage: {:.2}%",
