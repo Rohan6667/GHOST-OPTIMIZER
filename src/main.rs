@@ -29,7 +29,7 @@ async fn main() {
         for (pid, process) in sys.processes() {
             let cpu_usage = process.cpu_usage();
             
-            if cpu_usage > 80.0 {
+            if cpu_usage > 01.0 {
                 heavy_processes = true;
                 let proc_name = process.name().to_string(); 
                 
