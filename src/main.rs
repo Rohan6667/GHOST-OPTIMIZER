@@ -3,7 +3,7 @@ use std::process::Command;
 use std::time::Duration;
 use std::env;
 use std::collections::HashSet;
-use sysinfo::{ProcessExt, System, SystemExt, PidExt};
+use sysinfo::{System, Process, Pid};
 
 #[derive(Serialize)]
 struct TelemetryPayload {
@@ -75,9 +75,9 @@ async fn main() {
     let brain_url = env::var("HF_SPACE_URL").unwrap_or_else(|_| "https://sudarshan143-ghost.hf.space/analyze".to_string());
 
     loop {
+        // Modern sysinfo automatic refresh syntax
         sys.refresh_all();
         
-        // Memory calculation
         let total_mem = sys.total_memory();
         let used_mem = sys.used_memory();
         let mem_percentage = (used_mem as f32 / total_mem as f32) * 100.0;
@@ -98,7 +98,6 @@ async fn main() {
             let cpu = process.cpu_usage();
             let p_name = process.name();
             
-            // Bypass essential self and shell daemons from freeze target
             if p_name == "ghost_optimizer" || p_name == "python3" || p_name == "bash" {
                 continue;
             }
@@ -111,7 +110,6 @@ async fn main() {
             }
         }
 
-        // Processing decisions with AI Brain URL
         if !target_name.is_empty() && highest_cpu > 10.0 {
             println!("[🎯 TARGET FOUND] Analyzing Process: {} (PID: {}) using {:.2}% CPU", target_name, target_pid, highest_cpu);
 
@@ -138,7 +136,7 @@ async fn main() {
             }
         } else {
             println!("[🟢 STABLE] System load within limits. No anomalies detected.");
-            thaw_all_processes(); // Recover state automatically
+            thaw_all_processes(); 
         }
 
         tokio::time::sleep(Duration::from_secs(5)).await;
