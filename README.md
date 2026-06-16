@@ -1,4 +1,4 @@
-# ⚡ GHOST OPTIMIZER (v0.2.2)
+# ⚡ GHOST OPTIMIZER (v0.2.6)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Rust-Stable-orange?style=for-the-badge&logo=rust" alt="Rust">
@@ -16,7 +16,7 @@
 
 No need to install the Rust toolchain, cargo, or configure heavy server libraries. The automated CI/CD pipeline delivers a fully optimized standalone x86_64 binary. Run this directly inside your Linux terminal:
 
-curl -L -O https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.2/ghost_optimizer && chmod +x ghost_optimizer && ./ghost_optimizer
+curl -L -O https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer && chmod +x ghost_optimizer && sudo ./ghost_optimizer
 
 ---
 
