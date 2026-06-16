@@ -1,4 +1,4 @@
-# ⚡ GHOST OPTIMIZER (v0.2.6)# ⚡ GHOST OPTIMIZER (v0.2.6)
+# ⚡ GHOST OPTIMIZER (v0.2.6)# ⚡ 
 
 <p align="center">
   <img src="https://img.shields.io/badge/Rust-Stable-orange?style=for-the-badge&logo=rust" alt="Rust">
