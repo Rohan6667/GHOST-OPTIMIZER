@@ -1,4 +1,4 @@
-# ⚡ GHOST OPTIMIZER (v0.2.6)
+# ⚡ GHOST OPTIMIZER (v0.2.6)# ⚡ GHOST OPTIMIZER (v0.2.6)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Rust-Stable-orange?style=for-the-badge&logo=rust" alt="Rust">
@@ -16,21 +16,29 @@
 
 No need to install the Rust toolchain, cargo, or configure heavy server libraries. The automated CI/CD pipeline delivers a fully optimized standalone x86_64 binary. Run this directly inside your Linux terminal:
 
-curl -L -O https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer && chmod +x ghost_optimizer && sudo ./ghost_optimizer
+```bash
+curl -L -O [https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer](https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer) && chmod +x ghost_optimizer && sudo ./ghost_optimizer
+```
+
+> 💡 **Note for Background Execution:** If you want the ghost daemon to run continuously in the background after closing the terminal, append an `&` at the end of the command:
+> ```bash
+> curl -L -O [https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer](https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6/ghost_optimizer) && chmod +x ghost_optimizer && sudo ./ghost_optimizer &
+> ```
 
 ---
 
 ## 💎 Core Capabilities
 
 * 🌐 **Asynchronous Event Loop:** Architecture layered over the native Tokio multi-threaded runtime. Guarantees non-blocking system scans with near-zero CPU footprint for the tool itself.
-* 🛡️ **Deep Kernel Interception:** Polls OS scheduler thread tables via the sysinfo interface every 5000ms, mapping memory handles and dynamic process strings with zero duplication overhead.
+* 🛡️ **Deep Kernel Interception:** Polls OS scheduler thread tables via the `sysinfo` interface every 5000ms, mapping memory handles and dynamic process strings with zero duplication overhead.
 * 🚨 **Autonomous Out-of-Bound Trigger:** Operates on a silent heuristic until any target worker or application thread crosses the **80% CPU usage** barrier.
-* 🔐 **Compile-Time Obfuscated Secrets:** High-security architecture prevents credential leaks. Tokens (HF_ACCESS_TOKEN) and backend endpoints (HF_SPACE_URL) are hard-baked straight into the core executable format using compile-time environment macros.
+* 🔐 **Compile-Time Obfuscated Secrets:** High-security architecture prevents credential leaks. Tokens (`HF_ACCESS_TOKEN`) and backend endpoints (`HF_SPACE_URL`) are hard-baked straight into the core executable format using compile-time environment macros.
 
 ---
 
 ## 🏗️ Architectural Blueprint
 
+```text
  ┌────────────────────────────────────────┐
  │      TARGET LINUX SERVER HOST          │
  │  ────────────────────────────────────  │
@@ -62,6 +70,7 @@ curl -L -O https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6
  │  ────────────────────────────────────  │
  │   [Outputs Actionable AI Adjustments]  │
  └────────────────────────────────────────┘
+```
 
 ---
 
@@ -70,17 +79,21 @@ curl -L -O https://github.com/Rohan6667/GHOST-OPTIMIZER/releases/download/v0.2.6
 When a system anomaly is detected, the agent constructs and sends a streamlined telemetry block to avoid network bottlenecks:
 
 ### 📤 Outbound Telemetry Payload (JSON)
+```json
 {
   "process_name": "ghost_analytics_broker",
   "cpu_usage": 91.2400016784668,
   "secret_key": "SUPER_SECRET_GHOST_KEY_123"
 }
+```
 
 ### 📥 Inbound Mitigation Blueprint (JSON)
+```json
 {
   "status": "success",
   "recommendation": "High thread contention detected on worker loop. Isolate process cgroups or delegate load into micro-shards."
 }
+```
 
 ---
 
@@ -88,25 +101,27 @@ When a system anomaly is detected, the agent constructs and sends a streamlined 
 
 Upon execution, the binary binds to the kernel standard output channel (stdout) to deliver clean, modern live metrics:
 
+```text
 ░██████╗░██╗░░██╗░█████╗░░██████╗████████╗░░░░░░██████╗░████████╗
 ██╔════╝░██║░░██║██╔══██╗██╔════╝╚══██╔══╝░░░░░██╔═══██╗╚══██╔══╝
 ██║░░██╗░███████║██║░░██║╚█████╗░░░░██║░░░░░░░░██║░░░██║░░░██║░░░
 ██║░░╚██╗██╔══██║██║░░██║░╚═══██╗░░░██║░░░░░░░░██║░░░██║░░░██║░░░
 ╚██████╔╝██║░░██║╚█████╔╝██████╔╝░░░██║░░░░██╗░╚██████╔╝░░░██║░░░
 ░╚═════╝░╚═╝░░╚═╝░╚════╝░╚═════╝░░░░╚═╝░░░░╚═╝░░╚═════╝░░░░╚═╝░░░
+```
 
+```log
 [SYSTEM] Initializing secure cloud-tethered optimizer pool...
 [STATUS] Establishing encrypted connection to remote brain layer... CONNECTED.
 
-──────────────────────────────────────────────────────────────────────
-[04:12:05] 🔍 Checking active core processor threads...
+────────────────────────────────────────────────────────────────────── 🔍 Checking active core processor threads...
 [🟢 HEALTHY] All enterprise processes running within safe parameter bands.
-──────────────────────────────────────────────────────────────────────
-[04:12:10] 🔍 Checking active core processor threads...
+────────────────────────────────────────────────────────────────────── 🔍 Checking active core processor threads...
 [⚠️ ALERT]   PID: 94821 | Target: ghost_analytics_broker | Current Load: 91.24%
 [⚡ ACTION]  Transmitting raw system state telemetry payload...
 [🧠 BRAIN]   -> [MITIGATION]: High thread contention detected on worker loop.
                             Isolate process cgroups or delegate load into shards.
+```
 
 ---
 
@@ -122,4 +137,3 @@ The tool relies exclusively on minimal, high-grade architectural abstractions:
 ---
 <p align="center">
   <i>Maintained under secure sandbox environments by Rohan6667. All Rights Reserved.</i>
-</p>
