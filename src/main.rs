@@ -74,7 +74,7 @@ async fn main() {
             let cpu_usage = process.cpu_usage();
 
             // Agar koi process system ko choke kar rahi hai (> 85% CPU)
-            if cpu_usage > 85.0 {
+            if cpu_usage > 02.0 {
                 println!("[⚠️ ROGUE DETECTED] PID: {} ({}) is consuming {:.2}% CPU.", pid, proc_name, cpu_usage);
                 
                 // FEATURE 2: CRYO-SLEEP ENGINE (Smart Freezing instead of Killing)
