@@ -19,10 +19,10 @@ struct BrainResponse {
     reason: String,
 }
 
-// Thread-isolated local map tracker for running frozen system nodes
+// Global Memory Base to keep track of frozen processes
 static mut FROZEN_PROCESSES: Option<HashSet<u32>> = None;
 
-// --- DYNAMIC LINUX VM RUNTIME DROP CACHES ---
+// --- FUNCTION 1: SYSTEM CACHE FLUSH (RAM MITIGATION) ---
 fn flush_system_cache() {
     println!("[⚡ RAM MITIGATION] Critical memory state detected! Flushing caches...");
     let _ = Command::new("sync").status();
@@ -31,7 +31,7 @@ fn flush_system_cache() {
         .status();
 }
 
-// --- PROCESS RESTRAINT INTERRUPT (SIGSTOP) ---
+// --- FUNCTION 2: CRYO-SLEEP EXECUTION (FREEZE PROCESS) ---
 fn freeze_process(pid: u32, name: &str) {
     unsafe {
         if FROZEN_PROCESSES.is_none() {
@@ -47,7 +47,7 @@ fn freeze_process(pid: u32, name: &str) {
     }
 }
 
-// --- SYSTEM ECO-RECOVERY TRIGGER (SIGCONT) ---
+// --- FUNCTION 3: THAW EXECUTION (RESUME PROCESS) ---
 fn thaw_all_processes() {
     unsafe {
         if let Some(ref mut set) = FROZEN_PROCESSES {
@@ -62,26 +62,20 @@ fn thaw_all_processes() {
     }
 }
 
-// --- AGENT INDUSTRIAL CORE RUNTIME ---
 #[tokio::main]
 async fn main() {
     println!("=========================================================");
     println!("===    GHOST OPTIMIZER AUTONOMOUS REAL-TIME CLIENT     ===");
     println!("=========================================================");
 
-    // Optimized HTTP interface with standard connection timeouts
-    let client = reqwest::Client::builder()
-        .timeout(Duration::from_secs(3))
-        .build()
-        .unwrap();
-        
+    let client = reqwest::Client::new();
     let mut sys = System::new_all();
     
     let secret_key = env::var("GHOST_SECRET_KEY").unwrap_or_else(|_| "SUPER_SECRET_GHOST_KEY_62026".to_string());
-    let brain_url = env::var("HF_SPACE_URL").unwrap_or_else(|_| "https://sudarshan143-telegram-to-link.hf.space/analyze".to_string());
+    let brain_url = env::var("HF_SPACE_URL").unwrap_or_else(|_| "https://sudarshan143-ghost.hf.space/analyze".to_string());
 
     loop {
-        // Collect kernel platform snapshots
+        // Modern sysinfo automatic refresh syntax
         sys.refresh_all();
         
         let total_mem = sys.total_memory();
@@ -90,12 +84,11 @@ async fn main() {
 
         println!("\n[📊 CORE METRICS] Total RAM: {} KB | Used RAM: {} KB ({:.2}%)", total_mem, used_mem, mem_percentage);
 
-        // Volatile capacity ceiling defense trigger
         if mem_percentage > 95.0 {
             flush_system_cache();
         }
 
-        // Processing hardware load scanner loops
+        // Process Scan Engine
         let mut highest_cpu: f32 = 0.0;
         let mut target_pid: u32 = 0;
         let mut target_name = String::new();
@@ -105,7 +98,6 @@ async fn main() {
             let cpu = process.cpu_usage();
             let p_name = process.name();
             
-            // Critical process bypass rules
             if p_name == "ghost_optimizer" || p_name == "python3" || p_name == "bash" {
                 continue;
             }
@@ -118,7 +110,6 @@ async fn main() {
             }
         }
 
-        // Active alert routing communications
         if !target_name.is_empty() && highest_cpu > 10.0 {
             println!("[🎯 TARGET FOUND] Analyzing Process: {} (PID: {}) using {:.2}% CPU", target_name, target_pid, highest_cpu);
 
@@ -129,32 +120,25 @@ async fn main() {
                 secret_key: secret_key.clone(),
             };
 
-            // Post metrics network communication pipeline
             match client.post(&brain_url).json(&real_payload).send().await {
                 Ok(res) => {
-                    if let Ok(body_text) = res.text().await {
-                        // Raw response deserializer validator
-                        if let Ok(brain_response) = serde_json::from_str::<BrainResponse>(&body_text) {
-                            println!("[🧠 BRAIN DECISION] Action: {}, Reason: {}", brain_response.action, brain_response.reason);
-                            
-                            if brain_response.action == "FREEZE" {
-                                freeze_process(target_pid, &target_name);
-                            } else {
-                                thaw_all_processes();
-                            }
+                    if let Ok(brain_response) = res.json::<BrainResponse>().await {
+                        println!("[🧠 BRAIN DECISION] Action: {}, Reason: {}", brain_response.action, brain_response.reason);
+                        
+                        if brain_response.action == "FREEZE" {
+                            freeze_process(target_pid, &target_name);
                         } else {
-                            println!("[🔴 PARSE ERROR] Received invalid raw response format from Cloud AI Brain: {}", body_text);
+                            thaw_all_processes();
                         }
                     }
                 }
-                Err(err) => println!("[🔴 NETWORK ERROR] Failed to connect to AI Brain at {}. Error: {:?}", brain_url, err),
+                Err(err) => println!("[🔴 ERROR] Cloud Brain connection failure: {:?}", err),
             }
         } else {
             println!("[🟢 STABLE] System load within limits. No anomalies detected.");
             thaw_all_processes(); 
         }
 
-        // Balanced state sleep clock
         tokio::time::sleep(Duration::from_secs(5)).await;
     }
 }
